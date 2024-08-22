@@ -32,6 +32,7 @@ export default function LoginForm() {
       setError("Credenciais inválidas. Tente novamente.");
     } else {
       console.log("Usuário autenticado!");
+      alert("Login efetuado com sucesso !!");
     }
   };
 
@@ -74,7 +75,7 @@ export default function LoginForm() {
         </div>
         <button
           type="submit"
-          className="w-full bg-orange-600 text-white py-3 rounded-md hover:bg-orange-700 transition"
+          className="w-full bg-orange-600 text-white py-3 rounded-2xl hover:bg-orange-700 transition"
         >
           Entrar
         </button>
@@ -93,7 +94,6 @@ export default function LoginForm() {
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
       />{" "}
-      {/* Modal de recuperação de senha */}
     </>
   );
 }

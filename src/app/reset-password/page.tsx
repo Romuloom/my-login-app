@@ -1,4 +1,4 @@
-// src/app/reset-password/page.tsx
+"use client";
 
 import { useState } from "react";
 
@@ -25,7 +25,7 @@ export default function ResetPasswordPage() {
       return;
     }
 
-    // Simulação de redefinição de senha (substitua pela lógica real conforme necessário)
+    // Simulação de redefinição de senha
     const isPasswordReset = await mockResetPassword(password);
 
     if (isPasswordReset) {
@@ -34,65 +34,105 @@ export default function ResetPasswordPage() {
       );
       // Redirecionar para a página de login após alguns segundos
       setTimeout(() => {
-        window.location.href = "/login";
-      }, 3000);
+        window.location.href = "/";
+      }, 2000);
     } else {
       setError("Erro ao redefinir a senha. Tente novamente mais tarde.");
     }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-md w-full bg-white p-8 rounded-lg shadow-md"
-      >
-        <h2 className="text-2xl font-semibold mb-6">Redefinir senha</h2>
-        {error && <p className="text-red-600 mb-4">{error}</p>}
-        {success && <p className="text-green-600 mb-4">{success}</p>}
-        {!success && (
-          <>
+    <div className="flex min-h-screen items-center justify-center">
+      <div className="bg-white p-8 rounded-lg max-w-md w-full">
+        <div className="text-center mb-4">
+          <img
+            src="/TrajetonMagazineLarge.png"
+            alt="Trajeton Logo"
+            className="h-16 mx-auto"
+          />
+        </div>
+        <div className="bg-[#F9FAFB] border border-gray-300 p-8 rounded-md">
+          {" "}
+          <h2 className="text-2xl font-semibold text-center mb-4">
+            Redefinir senha
+          </h2>
+          <p className="text-sm text-gray-600 mb-6 text-center">
+            Redefina sua senha com no mínimo 6 caracteres
+          </p>
+          <form onSubmit={handleSubmit}>
             <div className="mb-4">
               <label
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="password"
               >
-                Nova senha
+                Senha*
               </label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="mt-1 p-3 block w-full border rounded-md shadow-sm"
-                required
-              />
+              <div className="relative">
+                <input
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm"
+                  required
+                />
+                <span className="absolute inset-y-0 right-4 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-gray-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M2.75 10a7.25 7.25 0 1114.5 0 7.25 7.25 0 01-14.5 0zm7.75-4a1 1 0 00-1 1v3.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7a1 1 0 00-1-1z" />
+                  </svg>
+                </span>
+              </div>
             </div>
-            <div className="mb-6">
+            <div className="mb-4">
               <label
                 className="block text-sm font-medium text-gray-700"
                 htmlFor="confirm-password"
               >
-                Confirmar senha
+                Confirme sua senha*
               </label>
-              <input
-                type="password"
-                id="confirm-password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-                className="mt-1 p-3 block w-full border rounded-md shadow-sm"
-                required
-              />
+              <div className="relative">
+                <input
+                  type="password"
+                  id="confirm-password"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  className="mt-1 p-3 block w-full border border-gray-300 rounded-md shadow-sm"
+                  required
+                />
+                <span className="absolute inset-y-0 right-4 flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5 text-gray-500"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path d="M2.75 10a7.25 7.25 0 1114.5 0 7.25 7.25 0 01-14.5 0zm7.75-4a1 1 0 00-1 1v3.586l-1.293-1.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 10.586V7a1 1 0 00-1-1z" />
+                  </svg>
+                </span>
+              </div>
+            </div>
+            <div className="text-sm text-gray-600 mb-6">
+              <p className="mb-1">Crie uma senha segura</p>
+              <ul className="list-disc ml-4">
+                <li>Use letras maiúsculas e minúsculas, símbolos e números.</li>
+                <li>Não use informações pessoais como datas de aniversário.</li>
+                <li>Não use uma senha igual à anterior.</li>
+              </ul>
             </div>
             <button
               type="submit"
-              className="w-full bg-blue-600 text-white py-3 rounded-md"
+              className="w-full bg-orange-600 text-white py-3 rounded-md hover:bg-orange-700 transition"
             >
               Redefinir senha
             </button>
-          </>
-        )}
-      </form>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
@@ -105,5 +145,6 @@ function validatePassword(password: string): boolean {
 
 async function mockResetPassword(password: string): Promise<boolean> {
   // Simulação de redefinição de senha (substitua pela lógica real conforme necessário)
+  
   return true;
 }

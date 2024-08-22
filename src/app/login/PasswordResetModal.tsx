@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface PasswordResetModalProps {
   isOpen: boolean;
@@ -12,30 +13,28 @@ export default function PasswordResetModal({
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    setSuccess("");
 
-    if (!validateEmail(email)) {
+    const adminEmail = "admin@example.com";
+
+    if (email !== adminEmail) {
       setError(
-        "E-mail inválido. Insira um endereço de e-mail no formato correto."
+        "E-mail inválido. Este endereço de e-mail não está cadastrado no sistema, verifique e tente novamente"
       );
       return;
     }
 
-    const isEmailSent = await mockSendPasswordReset(email);
+    setSuccess(
+      "Enviamos um link de recuperação para o seu e-mail cadastrado. Por favor, verifique a sua caixa de entrada e a pasta de spam, se necessário."
+    );
+  };
 
-    if (isEmailSent) {
-      setSuccess(
-        "Enviamos um link de recuperação para o seu e-mail cadastrado. Por favor, verifique a sua caixa de entrada e a pasta de spam, se necessário."
-      );
-    } else {
-      setError(
-        "Erro ao enviar o e-mail de recuperação. Tente novamente mais tarde."
-      );
-    }
+  const handleConfirm = () => {
+    router.push("/reset-password/link");
   };
 
   if (!isOpen) return null;
@@ -55,7 +54,7 @@ export default function PasswordResetModal({
           <div>
             <p className="text-sm mb-4 text-gray-600">{success}</p>
             <button
-              onClick={onClose}
+              onClick={handleConfirm}
               className="w-full bg-orange-600 text-white py-2 rounded-md hover:bg-orange-700 transition"
             >
               Entendido
@@ -93,24 +92,7 @@ export default function PasswordResetModal({
             </form>
           </>
         )}
-        {!success && (
-          <button
-            onClick={onClose}
-            className="mt-4 text-sm text-gray-500 hover:text-gray-700 hover:underline"
-          >
-          </button>
-        )}
       </div>
     </div>
   );
-}
-
-function validateEmail(email: string): boolean {
-  const re = /\S+@\S+\.\S+/;
-  return re.test(email);
-}
-
-async function mockSendPasswordReset(email: string): Promise<boolean> {
-  // Simulação de envio de e-mail de recuperação (substitua pela lógica real conforme necessário)
-  return email === "admin@example.com";
 }
